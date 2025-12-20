@@ -1,0 +1,287 @@
+import { useState } from "react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { Calendar, Clock, User, Car, ChevronLeft, ChevronRight, Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import greenPorsche from "@/assets/green-porsche.jpg";
+
+const services = [
+  { id: "exterior", name: "Exterior Detailing", price: "₹2,999" },
+  { id: "interior", name: "Interior Deep Clean", price: "₹1,999" },
+  { id: "ceramic", name: "Ceramic Coating", price: "₹9,999" },
+  { id: "full", name: "Full Detail Package", price: "₹7,999" },
+];
+
+const timeSlots = [
+  "9:00 AM",
+  "10:30 AM",
+  "12:00 PM",
+  "2:00 PM",
+  "3:30 PM",
+  "5:00 PM",
+];
+
+const BookingSection = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [selectedService, setSelectedService] = useState<string | null>(null);
+  const [name, setName] = useState("");
+
+  const getDaysInMonth = (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDay = firstDay.getDay();
+
+    const days: (number | null)[] = [];
+    for (let i = 0; i < startingDay; i++) {
+      days.push(null);
+    }
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push(i);
+    }
+    return days;
+  };
+
+  const formatMonth = (date: Date) => {
+    return date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+  };
+
+  const handlePrevMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+  };
+
+  const handleDateSelect = (day: number) => {
+    const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+    if (newDate >= new Date()) {
+      setSelectedDate(newDate);
+    }
+  };
+
+  const isDateSelected = (day: number) => {
+    if (!selectedDate) return false;
+    return (
+      selectedDate.getDate() === day &&
+      selectedDate.getMonth() === currentMonth.getMonth() &&
+      selectedDate.getFullYear() === currentMonth.getFullYear()
+    );
+  };
+
+  const isPastDate = (day: number) => {
+    const today = new Date();
+    const checkDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+    today.setHours(0, 0, 0, 0);
+    return checkDate < today;
+  };
+
+  const handleBooking = () => {
+    if (!name || !selectedService || !selectedDate || !selectedTime) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+    toast.success("Booking request submitted! We'll contact you shortly.");
+    setName("");
+    setSelectedService(null);
+    setSelectedDate(null);
+    setSelectedTime(null);
+  };
+
+  const days = getDaysInMonth(currentMonth);
+
+  return (
+    <section ref={ref} className="section-padding relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 gradient-sage opacity-90" />
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CjxyZWN0IHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgZmlsbD0ibm9uZSIvPgo8Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIxIiBmaWxsPSJyZ2JhKDAsMCwwLDAuMSkiLz4KPC9zdmc+')] opacity-50" />
+      
+      <div className="container-custom relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left - Image & Info */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="space-y-8"
+          >
+            <div>
+              <span className="text-primary-foreground/70 text-sm font-medium tracking-wider uppercase">Book Appointment</span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-6 text-primary-foreground">
+                Book Your Premium<br />Car Wash Today
+              </h2>
+              <p className="text-primary-foreground/80 max-w-md">
+                Select your preferred date, time, and service. Our team will confirm your appointment shortly.
+              </p>
+            </div>
+
+            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden">
+              <img
+                src={greenPorsche}
+                alt="Luxury car detailing"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-sage-dark/60 to-transparent" />
+            </div>
+          </motion.div>
+
+          {/* Right - Booking Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="bg-card rounded-3xl p-6 lg:p-8 border border-border"
+          >
+            <div className="space-y-6">
+              {/* Name Input */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                  <User size={16} />
+                  Your Name
+                </label>
+                <Input
+                  placeholder="Enter your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="bg-secondary border-border rounded-xl h-12"
+                />
+              </div>
+
+              {/* Service Selection */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                  <Car size={16} />
+                  Select Service
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  {services.map((service) => (
+                    <motion.button
+                      key={service.id}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setSelectedService(service.id)}
+                      className={`p-3 rounded-xl border text-left transition-all duration-300 ${
+                        selectedService === service.id
+                          ? "bg-primary/10 border-primary text-foreground"
+                          : "bg-secondary border-border text-muted-foreground hover:border-primary/50"
+                      }`}
+                    >
+                      <div className="text-sm font-medium">{service.name}</div>
+                      <div className="text-xs text-muted-foreground">{service.price}</div>
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Calendar */}
+              <div className="space-y-3">
+                <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                  <Calendar size={16} />
+                  Select Date
+                </label>
+                <div className="bg-secondary rounded-xl p-4">
+                  {/* Month Navigation */}
+                  <div className="flex items-center justify-between mb-4">
+                    <button
+                      onClick={handlePrevMonth}
+                      className="p-1 hover:bg-muted rounded-lg transition-colors"
+                    >
+                      <ChevronLeft size={20} className="text-muted-foreground" />
+                    </button>
+                    <span className="font-medium text-foreground">{formatMonth(currentMonth)}</span>
+                    <button
+                      onClick={handleNextMonth}
+                      className="p-1 hover:bg-muted rounded-lg transition-colors"
+                    >
+                      <ChevronRight size={20} className="text-muted-foreground" />
+                    </button>
+                  </div>
+
+                  {/* Days Header */}
+                  <div className="grid grid-cols-7 gap-1 mb-2">
+                    {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
+                      <div key={day} className="text-center text-xs text-muted-foreground py-1">
+                        {day}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Days Grid */}
+                  <div className="grid grid-cols-7 gap-1">
+                    {days.map((day, index) => (
+                      <div key={index} className="aspect-square">
+                        {day && (
+                          <button
+                            onClick={() => handleDateSelect(day)}
+                            disabled={isPastDate(day)}
+                            className={`w-full h-full rounded-lg text-sm font-medium transition-all duration-200 ${
+                              isDateSelected(day)
+                                ? "bg-primary text-primary-foreground"
+                                : isPastDate(day)
+                                ? "text-muted-foreground/30 cursor-not-allowed"
+                                : "text-foreground hover:bg-muted"
+                            }`}
+                          >
+                            {day}
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Time Slots */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                  <Clock size={16} />
+                  Select Time
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {timeSlots.map((time) => (
+                    <motion.button
+                      key={time}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setSelectedTime(time)}
+                      className={`py-2 px-3 rounded-xl text-sm font-medium transition-all duration-300 ${
+                        selectedTime === time
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary text-muted-foreground hover:text-foreground border border-border hover:border-primary/50"
+                      }`}
+                    >
+                      {time}
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <Button
+                onClick={handleBooking}
+                variant="sage"
+                size="lg"
+                className="w-full"
+              >
+                <Check size={18} className="mr-2" />
+                Confirm Booking
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default BookingSection;
