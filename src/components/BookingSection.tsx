@@ -100,6 +100,25 @@ const BookingSection = () => {
 
   const days = getDaysInMonth(currentMonth);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 },
+    },
+  };
+
   return (
     <section ref={ref} className="section-padding relative overflow-hidden">
       {/* Background */}
@@ -110,12 +129,16 @@ const BookingSection = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left - Image & Info */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -60 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
             className="space-y-8"
           >
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.2, duration: 0.6 }}
+            >
               <span className="text-primary-foreground/70 text-sm font-medium tracking-wider uppercase">Book Appointment</span>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-6 text-primary-foreground">
                 Book Your Premium<br />Car Wash Today
@@ -123,28 +146,39 @@ const BookingSection = () => {
               <p className="text-primary-foreground/80 max-w-md">
                 Select your preferred date, time, and service. Our team will confirm your appointment shortly.
               </p>
-            </div>
+            </motion.div>
 
-            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden">
+            <motion.div 
+              className="relative aspect-[4/3] rounded-3xl overflow-hidden"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              whileHover={{ scale: 1.02 }}
+            >
               <img
                 src={greenPorsche}
                 alt="Luxury car detailing"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-sage-dark/60 to-transparent" />
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Right - Booking Form */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 60 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
             className="bg-card rounded-3xl p-6 lg:p-8 border border-border"
           >
-            <div className="space-y-6">
+            <motion.div 
+              className="space-y-6"
+              variants={containerVariants}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+            >
               {/* Name Input */}
-              <div className="space-y-2">
+              <motion.div variants={itemVariants} className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                   <User size={16} />
                   Your Name
@@ -155,19 +189,22 @@ const BookingSection = () => {
                   onChange={(e) => setName(e.target.value)}
                   className="bg-secondary border-border rounded-xl h-12"
                 />
-              </div>
+              </motion.div>
 
               {/* Service Selection */}
-              <div className="space-y-2">
+              <motion.div variants={itemVariants} className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                   <Car size={16} />
                   Select Service
                 </label>
                 <div className="grid grid-cols-2 gap-3">
-                  {services.map((service) => (
+                  {services.map((service, index) => (
                     <motion.button
                       key={service.id}
-                      whileHover={{ scale: 1.02 }}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.5 + index * 0.1 }}
+                      whileHover={{ scale: 1.03, y: -2 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setSelectedService(service.id)}
                       className={`p-3 rounded-xl border text-left transition-all duration-300 ${
@@ -181,10 +218,10 @@ const BookingSection = () => {
                     </motion.button>
                   ))}
                 </div>
-              </div>
+              </motion.div>
 
               {/* Calendar */}
-              <div className="space-y-3">
+              <motion.div variants={itemVariants} className="space-y-3">
                 <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                   <Calendar size={16} />
                   Select Date
@@ -192,19 +229,23 @@ const BookingSection = () => {
                 <div className="bg-secondary rounded-xl p-4">
                   {/* Month Navigation */}
                   <div className="flex items-center justify-between mb-4">
-                    <button
+                    <motion.button
                       onClick={handlePrevMonth}
                       className="p-1 hover:bg-muted rounded-lg transition-colors"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
                     >
                       <ChevronLeft size={20} className="text-muted-foreground" />
-                    </button>
+                    </motion.button>
                     <span className="font-medium text-foreground">{formatMonth(currentMonth)}</span>
-                    <button
+                    <motion.button
                       onClick={handleNextMonth}
                       className="p-1 hover:bg-muted rounded-lg transition-colors"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
                     >
                       <ChevronRight size={20} className="text-muted-foreground" />
-                    </button>
+                    </motion.button>
                   </div>
 
                   {/* Days Header */}
@@ -221,9 +262,11 @@ const BookingSection = () => {
                     {days.map((day, index) => (
                       <div key={index} className="aspect-square">
                         {day && (
-                          <button
+                          <motion.button
                             onClick={() => handleDateSelect(day)}
                             disabled={isPastDate(day)}
+                            whileHover={{ scale: isPastDate(day) ? 1 : 1.15 }}
+                            whileTap={{ scale: 0.95 }}
                             className={`w-full h-full rounded-lg text-sm font-medium transition-all duration-200 ${
                               isDateSelected(day)
                                 ? "bg-primary text-primary-foreground"
@@ -233,26 +276,29 @@ const BookingSection = () => {
                             }`}
                           >
                             {day}
-                          </button>
+                          </motion.button>
                         )}
                       </div>
                     ))}
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Time Slots */}
-              <div className="space-y-2">
+              <motion.div variants={itemVariants} className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                   <Clock size={16} />
                   Select Time
                 </label>
                 <div className="grid grid-cols-3 gap-2">
-                  {timeSlots.map((time) => (
+                  {timeSlots.map((time, index) => (
                     <motion.button
                       key={time}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.7 + index * 0.05 }}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={() => setSelectedTime(time)}
                       className={`py-2 px-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                         selectedTime === time
@@ -264,19 +310,26 @@ const BookingSection = () => {
                     </motion.button>
                   ))}
                 </div>
-              </div>
+              </motion.div>
 
               {/* Submit Button */}
-              <Button
-                onClick={handleBooking}
-                variant="sage"
-                size="lg"
-                className="w-full"
-              >
-                <Check size={18} className="mr-2" />
-                Confirm Booking
-              </Button>
-            </div>
+              <motion.div variants={itemVariants}>
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Button
+                    onClick={handleBooking}
+                    variant="sage"
+                    size="lg"
+                    className="w-full"
+                  >
+                    <Check size={18} className="mr-2" />
+                    Confirm Booking
+                  </Button>
+                </motion.div>
+              </motion.div>
+            </motion.div>
           </motion.div>
         </div>
       </div>
