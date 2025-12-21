@@ -1,61 +1,70 @@
-import { useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { Icon } from "leaflet";
+import { useEffect, useRef } from "react";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-
-// Fix for leaflet default icon issue - run immediately
-const iconUrl = "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png";
-const iconRetinaUrl = "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png";
-const shadowUrl = "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png";
-
-// Create custom sage green marker icon
-const customIcon = new Icon({
-  iconUrl,
-  iconRetinaUrl,
-  shadowUrl,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
 
 // Guwahati coordinates
 const position: [number, number] = [26.1445, 91.7362];
 
+function getCssHslVar(name: string, fallback: string) {
+  try {
+    const raw = getComputedStyle(document.documentElement)
+      .getPropertyValue(name)
+      .trim();
+    return raw ? `hsl(${raw})` : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 const Map = () => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<L.Map | null>(null);
+
   useEffect(() => {
-    // Fix for leaflet default icon issue
-    delete (Icon.Default.prototype as any)._getIconUrl;
-    Icon.Default.mergeOptions({
-      iconRetinaUrl,
-      iconUrl,
-      shadowUrl,
+    if (!containerRef.current || mapRef.current) return;
+
+    const primary = getCssHslVar("--primary", "hsl(96 10% 51%)");
+
+    const map = L.map(containerRef.current, {
+      center: position,
+      zoom: 14,
+      scrollWheelZoom: false,
+      zoomControl: true,
     });
+
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    }).addTo(map);
+
+    const marker = L.circleMarker(position, {
+      radius: 8,
+      color: primary,
+      weight: 2,
+      fillColor: primary,
+      fillOpacity: 0.9,
+    }).addTo(map);
+
+    marker.bindPopup(
+      `<div style="text-align:center;padding:6px 8px;">
+        <div style="font-weight:700;color:${primary}">Cozi Cars</div>
+        <div style="color:hsl(0 0% 60%);font-size:12px">Premium Car Detailing</div>
+        <div style="color:hsl(0 0% 60%);font-size:12px">Guwahati, Assam</div>
+      </div>`,
+      { closeButton: true },
+    );
+
+    mapRef.current = map;
+
+    return () => {
+      map.remove();
+      mapRef.current = null;
+    };
   }, []);
 
   return (
     <div className="w-full h-full rounded-3xl overflow-hidden border border-border relative">
-      <MapContainer
-        center={position}
-        zoom={14}
-        scrollWheelZoom={false}
-        style={{ height: "100%", width: "100%" }}
-        className="dark-map"
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-        />
-        <Marker position={position} icon={customIcon}>
-          <Popup>
-            <strong style={{ color: "#7E8C77" }}>Cozi Cars</strong>
-            <br />
-            <span style={{ color: "#888" }}>Premium Car Detailing</span>
-            <br />
-            <span style={{ color: "#888" }}>Guwahati, Assam</span>
-          </Popup>
-        </Marker>
-      </MapContainer>
+      <div ref={containerRef} className="h-full w-full" />
       <div className="absolute inset-0 pointer-events-none rounded-3xl border border-primary/10" />
     </div>
   );
