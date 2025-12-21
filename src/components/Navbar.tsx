@@ -43,8 +43,8 @@ const Navbar = () => {
               className="text-2xl font-bold tracking-tight"
               whileHover={{ scale: 1.02 }}
             >
-              <span className="text-foreground">Cozi</span>
-              <span className="text-primary">Cars</span>
+              <span className="text-foreground">Auto</span>
+              <span className="text-primary">Garage</span>
             </motion.span>
           </Link>
 

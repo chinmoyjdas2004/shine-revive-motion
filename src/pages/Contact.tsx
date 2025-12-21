@@ -257,7 +257,7 @@ const Contact = () => {
                         Email
                       </p>
                       <p className="text-muted-foreground text-sm">
-                        hello@cozicars.com
+                        hello@autogarage.com
                       </p>
                     </div>
                   </div>

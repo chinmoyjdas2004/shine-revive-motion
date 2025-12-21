@@ -30,8 +30,8 @@ const Footer = () => {
           <div className="space-y-6">
             <Link to="/" className="inline-block">
               <span className="text-2xl font-bold tracking-tight">
-                <span className="text-foreground">Cozi</span>
-                <span className="text-primary">Cars</span>
+                <span className="text-foreground">Auto</span>
+                <span className="text-primary">Garage</span>
               </span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
@@ -101,7 +101,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3 text-muted-foreground text-sm">
                 <Mail size={18} className="text-primary shrink-0" />
-                <span>hello@cozicars.com</span>
+                <span>hello@autogarage.com</span>
               </li>
             </ul>
           </div>
@@ -110,7 +110,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-muted-foreground text-sm">
-            © 2024 Cozi Cars. All rights reserved.
+            © 2025 AutoGarage. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-muted-foreground">
             <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
