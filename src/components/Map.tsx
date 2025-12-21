@@ -47,7 +47,7 @@ const Map = () => {
 
     marker.bindPopup(
       `<div style="text-align:center;padding:6px 8px;">
-        <div style="font-weight:700;color:${primary}">Cozi Cars</div>
+        <div style="font-weight:700;color:${primary}">AutoGarage</div>
         <div style="color:hsl(0 0% 60%);font-size:12px">Premium Car Detailing</div>
         <div style="color:hsl(0 0% 60%);font-size:12px">Guwahati, Assam</div>
       </div>`,
