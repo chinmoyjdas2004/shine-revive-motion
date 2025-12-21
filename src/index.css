@@ -88,6 +88,35 @@
     box-shadow: 0 0 60px -12px hsl(var(--primary) / 0.3);
   }
 
+  .glass-card {
+    @apply relative overflow-hidden rounded-3xl border border-border/30 backdrop-blur-xl transition-all duration-500;
+    background: linear-gradient(
+      135deg,
+      hsl(0 0% 9% / 0.9) 0%,
+      hsl(0 0% 7% / 0.8) 100%
+    );
+    box-shadow: 
+      inset 0 1px 0 0 hsl(0 0% 100% / 0.05),
+      0 20px 40px -12px hsl(0 0% 0% / 0.5);
+  }
+
+  .glass-card:hover {
+    @apply border-primary/20;
+    box-shadow: 
+      inset 0 1px 0 0 hsl(0 0% 100% / 0.08),
+      0 0 60px -12px hsl(var(--primary) / 0.2),
+      0 20px 40px -12px hsl(0 0% 0% / 0.5);
+  }
+
+  .glass-input {
+    @apply bg-secondary/50 border-border/50 rounded-xl h-12 text-foreground placeholder:text-muted-foreground transition-all duration-300;
+  }
+
+  .glass-input:focus {
+    @apply border-primary/50 ring-2 ring-primary/20;
+    box-shadow: 0 0 20px -8px hsl(var(--primary) / 0.3);
+  }
+
   .glass-effect {
     @apply bg-background/50 backdrop-blur-xl border border-border/30;
   }
@@ -182,18 +211,61 @@
   background: hsl(var(--background)) !important;
 }
 
-.leaflet-tile {
-  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9);
+.dark-map .leaflet-tile {
+  filter: none;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  border-radius: 12px !important;
+  overflow: hidden;
 }
 
 .leaflet-control-zoom a {
   background: hsl(var(--card)) !important;
   color: hsl(var(--foreground)) !important;
   border-color: hsl(var(--border)) !important;
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  font-size: 18px !important;
 }
 
-.leaflet-popup-content-wrapper,
-.leaflet-popup-tip {
+.leaflet-control-zoom a:hover {
+  background: hsl(var(--secondary)) !important;
+}
+
+.leaflet-popup-content-wrapper {
   background: hsl(var(--card)) !important;
   color: hsl(var(--foreground)) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 10px 30px -10px hsl(0 0% 0% / 0.5) !important;
+}
+
+.leaflet-popup-tip {
+  background: hsl(var(--card)) !important;
+}
+
+.leaflet-popup-close-button {
+  color: hsl(var(--muted-foreground)) !important;
+}
+
+.leaflet-popup-close-button:hover {
+  color: hsl(var(--foreground)) !important;
+}
+
+/* Custom marker styles */
+.custom-marker {
+  background: transparent;
+  border: none;
+}
+
+.leaflet-control-attribution {
+  background: hsl(var(--background) / 0.8) !important;
+  color: hsl(var(--muted-foreground)) !important;
+  font-size: 10px !important;
+}
+
+.leaflet-control-attribution a {
+  color: hsl(var(--primary)) !important;
 }
