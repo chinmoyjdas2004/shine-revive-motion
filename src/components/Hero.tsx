@@ -143,7 +143,7 @@ const Hero = () => {
               variants={itemVariants}
               className="flex flex-wrap gap-4"
             >
-              <Link to="/contact">
+              <Link to="/booking">
                 <MagneticButton strength={0.3}>
                   <motion.div
                     whileHover={{ scale: 1.05 }}

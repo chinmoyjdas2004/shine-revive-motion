@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ServicesGrid from "@/components/ServicesGrid";
-import BookingSection from "@/components/BookingSection";
+import ContactSection from "@/components/ContactSection";
 import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
 
@@ -11,7 +11,7 @@ const Index = () => {
       <Navbar />
       <Hero />
       <ServicesGrid />
-      <BookingSection />
+      <ContactSection />
       <Testimonials />
       <Footer />
     </main>

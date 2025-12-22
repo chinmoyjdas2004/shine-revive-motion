@@ -5,6 +5,7 @@ import Services from "@/pages/Services";
 import ServiceDetail from "@/pages/ServiceDetail";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
+import Booking from "@/pages/Booking";
 import NotFound from "@/pages/NotFound";
 import PageTransition from "./PageTransition";
 
@@ -51,6 +52,14 @@ const AnimatedRoutes = () => {
           element={
             <PageTransition>
               <Contact />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/booking"
+          element={
+            <PageTransition>
+              <Booking />
             </PageTransition>
           }
         />

@@ -73,7 +73,7 @@ const Navbar = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Link to="/contact">
+            <Link to="/booking">
               <Button variant="sage" size="sm">
                 Book Now
               </Button>
@@ -120,7 +120,7 @@ const Navbar = () => {
                   </Link>
                 </motion.div>
               ))}
-              <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>
+              <Link to="/booking" onClick={() => setIsMobileMenuOpen(false)}>
                 <Button variant="sage" className="w-full mt-4">
                   Book Now
                 </Button>
