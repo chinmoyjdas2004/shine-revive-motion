@@ -2,6 +2,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Star, Quote } from "lucide-react";
 import BentoCard from "@/components/BentoCard";
+import RevealOnScroll from "@/components/RevealOnScroll";
 
 const testimonials = [
   {
@@ -81,32 +82,14 @@ const Testimonials = () => {
       
       <div className="container-custom relative z-10">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <motion.span 
-            className="text-primary text-sm font-medium tracking-wider uppercase"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-          >
+        <RevealOnScroll className="text-center mb-16">
+          <span className="text-primary text-sm font-medium tracking-wider uppercase">
             Testimonials
-          </motion.span>
-          <motion.h2 
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-6 text-foreground"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-6 text-foreground">
             What Our <span className="text-primary">Clients</span> Say
-          </motion.h2>
-        </motion.div>
+          </h2>
+        </RevealOnScroll>
 
         {/* Testimonials Grid */}
         <motion.div 

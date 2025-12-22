@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import greenPorsche from "@/assets/green-porsche.jpg";
+import RevealOnScroll from "@/components/RevealOnScroll";
+import MagneticButton from "@/components/MagneticButton";
 
 const services = [
   { id: "exterior", name: "Exterior Detailing", price: "₹2,999" },
@@ -134,11 +136,7 @@ const BookingSection = () => {
             transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
             className="space-y-8"
           >
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2, duration: 0.6 }}
-            >
+            <RevealOnScroll delay={0.2}>
               <span className="text-primary-foreground/70 text-sm font-medium tracking-wider uppercase">Book Appointment</span>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-6 text-primary-foreground">
                 Book Your Premium<br />Car Wash Today
@@ -146,7 +144,7 @@ const BookingSection = () => {
               <p className="text-primary-foreground/80 max-w-md">
                 Select your preferred date, time, and service. Our team will confirm your appointment shortly.
               </p>
-            </motion.div>
+            </RevealOnScroll>
 
             <motion.div 
               className="relative aspect-[4/3] rounded-3xl overflow-hidden"
@@ -314,20 +312,22 @@ const BookingSection = () => {
 
               {/* Submit Button */}
               <motion.div variants={itemVariants}>
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Button
-                    onClick={handleBooking}
-                    variant="sage"
-                    size="lg"
-                    className="w-full"
+                <MagneticButton className="w-full" strength={0.15}>
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    <Check size={18} className="mr-2" />
-                    Confirm Booking
-                  </Button>
-                </motion.div>
+                    <Button
+                      onClick={handleBooking}
+                      variant="sage"
+                      size="lg"
+                      className="w-full"
+                    >
+                      <Check size={18} className="mr-2" />
+                      Confirm Booking
+                    </Button>
+                  </motion.div>
+                </MagneticButton>
               </motion.div>
             </motion.div>
           </motion.div>

@@ -3,6 +3,8 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, Sparkles, Car, Shield } from "lucide-react";
 import BentoCard from "@/components/BentoCard";
+import MagneticButton from "@/components/MagneticButton";
+import RevealOnScroll from "@/components/RevealOnScroll";
 import exteriorDetail from "@/assets/exterior-detail.jpg";
 import interiorDetail from "@/assets/interior-detail.jpg";
 import ceramicCoating from "@/assets/ceramic-coating.jpg";
@@ -91,42 +93,18 @@ const ServicesGrid = () => {
       
       <div className="container-custom relative z-10">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center mb-16"
-        >
-          <motion.span 
-            className="text-primary text-sm font-medium tracking-wider uppercase inline-block"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-          >
+        <RevealOnScroll className="text-center mb-16">
+          <span className="text-primary text-sm font-medium tracking-wider uppercase inline-block">
             Our Services
-          </motion.span>
-          <motion.h2 
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-6">
             From a Simple Wash to<br />
             <span className="text-primary">Comprehensive Detailing</span>
-          </motion.h2>
-          <motion.p 
-            className="text-muted-foreground max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-          >
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
             We offer a range of premium services tailored to meet your car's specific needs, ensuring perfection in every detail.
-          </motion.p>
-        </motion.div>
+          </p>
+        </RevealOnScroll>
 
         {/* Bento Grid */}
         <motion.div 
@@ -166,16 +144,19 @@ const ServicesGrid = () => {
                       {service.price}
                     </motion.div>
 
-                    {/* Arrow Icon */}
-                    <motion.div
-                      className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-primary flex items-center justify-center"
-                      initial={{ opacity: 0, scale: 0 }}
-                      whileHover={{ scale: 1.2, rotate: 45 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.5 + index * 0.1 }}
+                    {/* Arrow Icon - Magnetic Effect */}
+                    <MagneticButton 
+                      className="absolute bottom-4 right-4"
+                      strength={0.5}
                     >
-                      <ArrowUpRight size={18} className="text-primary-foreground" />
-                    </motion.div>
+                      <motion.div
+                        className="w-10 h-10 rounded-full bg-primary flex items-center justify-center cursor-pointer"
+                        whileHover={{ scale: 1.2, rotate: 45 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <ArrowUpRight size={18} className="text-primary-foreground" />
+                      </motion.div>
+                    </MagneticButton>
                   </div>
 
                   {/* Content */}
