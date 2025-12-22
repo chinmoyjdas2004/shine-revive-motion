@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import BentoCard from "@/components/BentoCard";
+import MagneticButton from "@/components/MagneticButton";
 import heroCar from "@/assets/hero-car.jpg";
 import greenPorsche from "@/assets/green-porsche.jpg";
 import detailingProcess from "@/assets/detailing-process.jpg";
@@ -143,30 +144,34 @@ const Hero = () => {
               className="flex flex-wrap gap-4"
             >
               <Link to="/contact">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Button variant="sage" size="lg" className="gap-2">
-                    Book Now
-                    <motion.div
-                      animate={{ x: [0, 4, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    >
-                      <ArrowRight size={18} />
-                    </motion.div>
-                  </Button>
-                </motion.div>
+                <MagneticButton strength={0.3}>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Button variant="sage" size="lg" className="gap-2">
+                      Book Now
+                      <motion.div
+                        animate={{ x: [0, 4, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        <ArrowRight size={18} />
+                      </motion.div>
+                    </Button>
+                  </motion.div>
+                </MagneticButton>
               </Link>
               <Link to="/services">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Button variant="outline" size="lg">
-                    View Services
-                  </Button>
-                </motion.div>
+                <MagneticButton strength={0.3}>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Button variant="outline" size="lg">
+                      View Services
+                    </Button>
+                  </motion.div>
+                </MagneticButton>
               </Link>
             </motion.div>
 
