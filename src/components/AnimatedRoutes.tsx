@@ -6,6 +6,7 @@ import ServiceDetail from "@/pages/ServiceDetail";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import Booking from "@/pages/Booking";
+import BookingConfirmation from "@/pages/BookingConfirmation";
 import NotFound from "@/pages/NotFound";
 import PageTransition from "./PageTransition";
 
@@ -60,6 +61,14 @@ const AnimatedRoutes = () => {
           element={
             <PageTransition>
               <Booking />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/booking-confirmation"
+          element={
+            <PageTransition>
+              <BookingConfirmation />
             </PageTransition>
           }
         />

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Calendar, Clock, User, Car, ChevronLeft, ChevronRight, Check, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,6 +31,7 @@ const timeSlots = [
 const Booking = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const navigate = useNavigate();
   
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -97,13 +99,17 @@ const Booking = () => {
       toast.error("Please fill in all required fields");
       return;
     }
-    toast.success("Booking request submitted! We'll contact you shortly.");
-    setName("");
-    setPhone("");
-    setEmail("");
-    setSelectedService(null);
-    setSelectedDate(null);
-    setSelectedTime(null);
+    
+    const serviceName = services.find(s => s.id === selectedService)?.name || selectedService;
+    
+    navigate("/booking-confirmation", {
+      state: {
+        name,
+        service: serviceName,
+        date: selectedDate.toISOString(),
+        time: selectedTime,
+      }
+    });
   };
 
   const days = getDaysInMonth(currentMonth);
