@@ -49,10 +49,10 @@ const ContactSection = () => {
   };
 
   return (
-    <section ref={ref} className="section-padding relative overflow-hidden">
+    <section ref={ref} className="section-padding relative overflow-hidden bg-secondary">
       {/* Background */}
-      <div className="absolute inset-0 gradient-sage opacity-90" />
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CjxyZWN0IHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgZmlsbD0ibm9uZSIvPgo8Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIxIiBmaWxsPSJyZ2JhKDAsMCwwLDAuMSkiLz4KPC9zdmc+')] opacity-50" />
+      <div className="absolute inset-0 gradient-dark" />
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CjxyZWN0IHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgZmlsbD0ibm9uZSIvPgo8Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIxIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIi8+Cjwvc3ZnPg==')] opacity-50" />
       
       <div className="container-custom relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -64,11 +64,11 @@ const ContactSection = () => {
             className="space-y-8"
           >
             <RevealOnScroll delay={0.2}>
-              <span className="text-primary-foreground/70 text-sm font-medium tracking-wider uppercase">Get In Touch</span>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-6 text-primary-foreground">
+              <span className="text-primary text-sm font-medium tracking-wider uppercase">Get In Touch</span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-6 text-foreground">
                 Have a Question?<br />We're Here to Help
               </h2>
-              <p className="text-primary-foreground/80 max-w-md">
+              <p className="text-muted-foreground max-w-md">
                 Whether you have questions about our services or need a custom quote, our team is ready to assist you.
               </p>
             </RevealOnScroll>
