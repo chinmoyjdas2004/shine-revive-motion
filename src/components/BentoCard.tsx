@@ -6,9 +6,10 @@ interface BentoCardProps {
   children: ReactNode;
   className?: string;
   glowColor?: string;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
-const BentoCard = ({ children, className = "", glowColor = "var(--primary)" }: BentoCardProps) => {
+const BentoCard = ({ children, className = "", glowColor = "var(--primary)", onClick }: BentoCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const { position, isHovering } = useMousePosition(cardRef);
 
@@ -42,6 +43,7 @@ const BentoCard = ({ children, className = "", glowColor = "var(--primary)" }: B
         transformStyle: "preserve-3d",
         perspective: "1000px",
       }}
+      onClick={onClick}
       whileHover={{
         borderColor: "hsl(var(--primary) / 0.3)",
         boxShadow: "0 0 60px -12px hsl(var(--primary) / 0.3)",
