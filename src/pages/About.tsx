@@ -52,7 +52,7 @@ const About = () => {
                 Our Story
               </span>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mt-4">
-                About <span className="text-primary">AdventureGarage</span>
+                About <span className="text-primary">BerkosDetailing</span>
               </h1>
             </motion.div>
           </div>
@@ -77,9 +77,7 @@ const About = () => {
               <h2 className="text-3xl sm:text-4xl font-bold text-foreground">
                 Passion for <span className="text-primary">Perfection</span>
               </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                Founded in the heart of Guwahati, AutoGarage was born from a deep passion for automotive excellence. We believe every car deserves to look its absolute best, and we've made it our mission to deliver that promise with every service.
-              </p>
+              <p className="text-muted-foreground leading-relaxed">Founded in the heart of Florida, Berkos Detailing was born from a deep passion for automotive excellence. We believe every car deserves to look its absolute best, and we've made it our mission to deliver that promise with every service.</p>
               <p className="text-muted-foreground leading-relaxed">
                 Our team of certified detailing professionals combines years of experience with cutting-edge techniques and premium products. From luxury sports cars to family vehicles, we treat every car with the same level of care and attention to detail.
               </p>
