@@ -67,10 +67,11 @@ const Hero = () => {
           muted
           loop
           playsInline
-          className="w-full h-full object-cover opacity-60"
+          className="w-full h-full object-cover"
+          style={{ filter: 'brightness(0.4)' }}
         >
           <source
-            src="https://videos.pexels.com/video-files/3049587/3049587-uhd_2560_1440_25fps.mp4"
+            src="https://cdn.pixabay.com/video/2020/05/25/40130-424930032_large.mp4"
             type="video/mp4"
           />
         </video>
