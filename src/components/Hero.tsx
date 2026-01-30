@@ -74,6 +74,8 @@ const Hero = () => {
             type="video/mp4"
           />
         </video>
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-background/70" />
       </div>
       
       {/* Floating Elements */}
@@ -267,7 +269,7 @@ const Hero = () => {
                 <motion.img
                   src={detailingProcess}
                   alt="Detailing process"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-center"
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.6 }}
                 />
