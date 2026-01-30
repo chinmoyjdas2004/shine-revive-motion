@@ -67,19 +67,14 @@ const Hero = () => {
           muted
           loop
           playsInline
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover opacity-40"
         >
           <source
             src="https://videos.pexels.com/video-files/3049587/3049587-uhd_2560_1440_25fps.mp4"
             type="video/mp4"
           />
         </video>
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-background/60" />
       </div>
-      
-      {/* Background Gradient */}
-      <div className="absolute inset-0 gradient-dark opacity-60" />
       
       {/* Floating Elements */}
       <motion.div
