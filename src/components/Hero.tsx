@@ -60,8 +60,26 @@ const Hero = () => {
       ref={containerRef}
       className="relative min-h-screen flex items-center overflow-hidden pt-20"
     >
+      {/* Background Video */}
+      <div className="absolute inset-0 z-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          <source
+            src="https://videos.pexels.com/video-files/3049587/3049587-uhd_2560_1440_25fps.mp4"
+            type="video/mp4"
+          />
+        </video>
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-background/85" />
+      </div>
+      
       {/* Background Gradient */}
-      <div className="absolute inset-0 gradient-dark" />
+      <div className="absolute inset-0 gradient-dark opacity-60" />
       
       {/* Floating Elements */}
       <motion.div
