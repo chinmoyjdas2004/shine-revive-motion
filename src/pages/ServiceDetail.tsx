@@ -1,5 +1,6 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { ArrowLeft, Check, Clock, Shield, Star, Sparkles, Car } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
@@ -81,7 +82,9 @@ const servicesData = {
 
 const ServiceDetail = () => {
   const { serviceId } = useParams<{ serviceId: string }>();
+  const navigate = useNavigate();
   const service = servicesData[serviceId as keyof typeof servicesData];
+  const [selectedTier, setSelectedTier] = useState(1); // Default to Premium (index 1)
 
   if (!service) {
     return (
@@ -225,27 +228,42 @@ const ServiceDetail = () => {
                     <motion.div
                       key={tier.name}
                       whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setSelectedTier(index)}
                       className={`p-4 rounded-2xl border transition-all duration-300 cursor-pointer ${
-                        index === 1 
-                          ? "border-primary bg-primary/5" 
+                        selectedTier === index 
+                          ? "border-primary bg-primary/10 ring-2 ring-primary/30" 
                           : "border-border hover:border-primary/50"
                       }`}
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <span className="font-semibold text-foreground">{tier.name}</span>
+                        <div className="flex items-center gap-3">
+                          <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors ${
+                            selectedTier === index ? "border-primary bg-primary" : "border-muted-foreground"
+                          }`}>
+                            {selectedTier === index && (
+                              <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                className="w-2 h-2 rounded-full bg-primary-foreground"
+                              />
+                            )}
+                          </div>
+                          <span className="font-semibold text-foreground">{tier.name}</span>
+                        </div>
                         {index === 1 && (
                           <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-xs">
                             Popular
                           </span>
                         )}
                       </div>
-                      <div className="text-2xl font-bold text-primary mb-1">{tier.price}</div>
-                      <div className="text-sm text-muted-foreground">{tier.description}</div>
+                      <div className="text-2xl font-bold text-primary mb-1 ml-7">{tier.price}</div>
+                      <div className="text-sm text-muted-foreground ml-7">{tier.description}</div>
                     </motion.div>
                   ))}
                 </div>
 
-                <Link to="/contact" className="block">
+                <Link to={`/booking?service=${serviceId}&tier=${service.pricing[selectedTier].name}`} className="block">
                   <Button variant="sage" size="lg" className="w-full">
                     Book This Service
                   </Button>
