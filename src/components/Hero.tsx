@@ -67,7 +67,7 @@ const Hero = () => {
           muted
           loop
           playsInline
-          className="w-full h-full object-cover opacity-40"
+          className="w-full h-full object-cover opacity-60"
         >
           <source
             src="https://videos.pexels.com/video-files/3049587/3049587-uhd_2560_1440_25fps.mp4"
