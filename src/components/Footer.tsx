@@ -45,8 +45,8 @@ const Footer = () => {
           <div className="space-y-6">
             <Link to="/" className="inline-block">
               <span className="text-2xl font-bold tracking-tight">
-                <span className="text-foreground">Adventure</span>
-                <span className="text-primary">Garage</span>
+                <span className="text-foreground">Berkos</span>
+                <span className="text-primary">Detailing</span>
               </span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
@@ -94,7 +94,7 @@ const Footer = () => {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-muted-foreground text-sm">
                 <MapPin size={18} className="text-primary mt-0.5 shrink-0" />
-                <span>123 Premium Lane, Guwahati, Assam 781001</span>
+                <span>Florida, USA</span>
               </li>
               <li className="flex items-center gap-3 text-muted-foreground text-sm">
                 <Phone size={18} className="text-primary shrink-0" />
@@ -102,7 +102,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3 text-muted-foreground text-sm">
                 <Mail size={18} className="text-primary shrink-0" />
-                <span>hello@adventuregarage.com</span>
+                <span>hello@berkosdetailing.com</span>
               </li>
             </ul>
           </div>
@@ -110,7 +110,7 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-muted-foreground text-sm">© 2025 AdventureGarage. All rights reserved.</p>
+          <p className="text-muted-foreground text-sm">© 2026 BerkosDetailing. All rights reserved.</p>
           <div className="flex gap-6 text-sm text-muted-foreground">
             <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>

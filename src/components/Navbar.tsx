@@ -42,8 +42,8 @@ const Navbar = () => {
             <motion.span className="text-2xl font-bold tracking-tight" whileHover={{
             scale: 1.02
           }}>
-              <span className="text-foreground">Adventure</span>
-              <span className="text-primary">Garage</span>
+              <span className="text-foreground">Berkos</span>
+              <span className="text-primary">Detailing</span>
             </motion.span>
           </Link>
 
