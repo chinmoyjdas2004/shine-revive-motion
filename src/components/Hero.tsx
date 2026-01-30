@@ -68,10 +68,9 @@ const Hero = () => {
           loop
           playsInline
           className="w-full h-full object-cover"
-          style={{ filter: 'brightness(0.4)' }}
         >
           <source
-            src="https://cdn.pixabay.com/video/2020/05/25/40130-424930032_large.mp4"
+            src="/videos/hero-background.mp4"
             type="video/mp4"
           />
         </video>
