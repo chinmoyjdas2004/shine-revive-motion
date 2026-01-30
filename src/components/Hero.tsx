@@ -75,7 +75,7 @@ const Hero = () => {
           />
         </video>
         {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-background/85" />
+        <div className="absolute inset-0 bg-background/60" />
       </div>
       
       {/* Background Gradient */}
