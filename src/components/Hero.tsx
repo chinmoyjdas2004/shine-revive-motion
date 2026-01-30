@@ -7,7 +7,7 @@ import BentoCard from "@/components/BentoCard";
 import MagneticButton from "@/components/MagneticButton";
 import heroCar from "@/assets/hero-car.jpg";
 import greenPorsche from "@/assets/green-porsche.jpg";
-import detailingProcess from "@/assets/detailing-process.jpg";
+import detailingProcess from "@/assets/polishing-detail.jpg";
 
 const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
