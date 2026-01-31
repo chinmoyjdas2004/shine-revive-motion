@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Phone, Mail, MapPin, Clock, ChevronDown } from "lucide-react";
+import { Send, Phone, Mail, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Map from "@/components/Map";
+import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -24,15 +25,36 @@ const Contact = () => {
     service: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.phone || !formData.message) {
       toast.error("Please fill in all required fields");
       return;
     }
-    toast.success("Message sent! We'll get back to you soon.");
-    setFormData({ name: "", phone: "", vehicle: "", service: "", message: "" });
+    
+    setIsSubmitting(true);
+    
+    try {
+      const { error } = await supabase.from("contacts").insert({
+        name: formData.name,
+        email: formData.vehicle, // Using vehicle field as optional email
+        phone: formData.phone,
+        subject: formData.service || null,
+        message: formData.message,
+      });
+      
+      if (error) throw error;
+      
+      toast.success("Message sent! We'll get back to you soon.");
+      setFormData({ name: "", phone: "", vehicle: "", service: "", message: "" });
+    } catch (error) {
+      console.error("Contact form error:", error);
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const services = [
@@ -200,12 +222,13 @@ const Contact = () => {
                     variant="sage"
                     size="lg"
                     className="w-full sm:w-auto group"
+                    disabled={isSubmitting}
                   >
                     <Send
                       size={18}
                       className="mr-2 transition-transform group-hover:translate-x-1"
                     />
-                    Send Message
+                    {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>
                 </form>
               </div>
