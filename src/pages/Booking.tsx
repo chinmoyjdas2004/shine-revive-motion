@@ -1,16 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { Calendar, Clock, User, Car, ChevronLeft, ChevronRight, Check, Phone, Mail } from "lucide-react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Calendar, Clock, User, Car, ChevronLeft, ChevronRight, Check, Phone, Mail, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import MagneticButton from "@/components/MagneticButton";
 import greenPorsche from "@/assets/green-porsche.jpg";
+import { supabase } from "@/integrations/supabase/client";
 
 const services = [
   { id: "exterior", name: "Exterior Detailing", price: "₹2,999" },
@@ -18,6 +20,8 @@ const services = [
   { id: "ceramic", name: "Ceramic Coating", price: "₹9,999" },
   { id: "full", name: "Full Detail Package", price: "₹7,999" },
 ];
+
+const tiers = ["Basic", "Premium", "Signature"];
 
 const timeSlots = [
   "9:00 AM",
@@ -32,14 +36,31 @@ const Booking = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [selectedService, setSelectedService] = useState<string | null>(null);
+  const [selectedTier, setSelectedTier] = useState<string>("Premium");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [notes, setNotes] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Pre-select service and tier from URL params
+  useEffect(() => {
+    const serviceParam = searchParams.get("service");
+    const tierParam = searchParams.get("tier");
+    
+    if (serviceParam) {
+      setSelectedService(serviceParam);
+    }
+    if (tierParam) {
+      setSelectedTier(tierParam);
+    }
+  }, [searchParams]);
 
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
@@ -94,22 +115,45 @@ const Booking = () => {
     return checkDate < today;
   };
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
     if (!name || !phone || !selectedService || !selectedDate || !selectedTime) {
       toast.error("Please fill in all required fields");
       return;
     }
     
-    const serviceName = services.find(s => s.id === selectedService)?.name || selectedService;
+    setIsSubmitting(true);
     
-    navigate("/booking-confirmation", {
-      state: {
+    try {
+      const serviceName = services.find(s => s.id === selectedService)?.name || selectedService;
+      
+      const { error } = await supabase.from("bookings").insert({
         name,
+        email: email || null,
+        phone,
         service: serviceName,
-        date: selectedDate.toISOString(),
+        tier: selectedTier,
+        date: selectedDate.toISOString().split('T')[0],
         time: selectedTime,
-      }
-    });
+        notes: notes || null,
+      });
+
+      if (error) throw error;
+      
+      navigate("/booking-confirmation", {
+        state: {
+          name,
+          service: serviceName,
+          tier: selectedTier,
+          date: selectedDate.toISOString(),
+          time: selectedTime,
+        }
+      });
+    } catch (error) {
+      console.error("Booking error:", error);
+      toast.error("Failed to submit booking. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const days = getDaysInMonth(currentMonth);
@@ -292,6 +336,34 @@ const Booking = () => {
                   </div>
                 </motion.div>
 
+                {/* Tier Selection */}
+                <motion.div variants={itemVariants} className="space-y-2">
+                  <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                    <Tag size={16} />
+                    Select Tier *
+                  </label>
+                  <div className="grid grid-cols-3 gap-3">
+                    {tiers.map((tier, index) => (
+                      <motion.button
+                        key={tier}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.6 + index * 0.1 }}
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => setSelectedTier(tier)}
+                        className={`py-3 px-4 rounded-xl border text-center transition-all duration-300 ${
+                          selectedTier === tier
+                            ? "bg-primary text-primary-foreground border-primary"
+                            : "bg-secondary border-border text-muted-foreground hover:border-primary/50"
+                        }`}
+                      >
+                        <div className="text-sm font-medium">{tier}</div>
+                      </motion.button>
+                    ))}
+                  </div>
+                </motion.div>
+
                 {/* Calendar */}
                 <motion.div variants={itemVariants} className="space-y-3">
                   <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
@@ -381,6 +453,19 @@ const Booking = () => {
                   </div>
                 </motion.div>
 
+                {/* Notes */}
+                <motion.div variants={itemVariants} className="space-y-2">
+                  <label className="text-sm font-medium text-muted-foreground">
+                    Additional Notes (optional)
+                  </label>
+                  <Textarea
+                    placeholder="Any special requests or details about your vehicle..."
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    className="bg-secondary border-border rounded-xl min-h-[80px] resize-none"
+                  />
+                </motion.div>
+
                 {/* Submit Button */}
                 <motion.div variants={itemVariants}>
                   <MagneticButton className="w-full" strength={0.15}>
@@ -393,9 +478,10 @@ const Booking = () => {
                         variant="sage"
                         size="lg"
                         className="w-full"
+                        disabled={isSubmitting}
                       >
                         <Check size={18} className="mr-2" />
-                        Confirm Booking
+                        {isSubmitting ? "Submitting..." : "Confirm Booking"}
                       </Button>
                     </motion.div>
                   </MagneticButton>
